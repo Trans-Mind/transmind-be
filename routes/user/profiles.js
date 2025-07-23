@@ -9,4 +9,6 @@ const profilesController = require("../../controllers/user/profiles")
 router.get("/get-me", authSupabase, profilesController.getOneProfile)
 router.post("/profile/upload-avatar", authSupabase, upload.single("avatars"), profilesController.uploadAvatar)
 
+router.put("/profile/update", authSupabase, profilesController.updateProfile)
+
 module.exports = router

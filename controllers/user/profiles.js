@@ -57,7 +57,28 @@ const uploadAvatar = async (req, res) => {
   res.status(200).json({ message: "Upload berhasil", url: publicUrl });
 };
 
+const updateProfile = async (req, res) => {
+  const { id } = req.user;
+  const { username, phone } = req.body;
+
+  if (!username || !phone) {
+    return res.status(400).json({ message: "Username dan phone wajib diisi"
+    });
+  }
+  const { error } = await supabase
+    .from("users")
+    .update({ name:username, phone })
+    .eq("id", id);
+
+  if (error) {
+    return res.status(500).json({ message: "Gagal update profil", detail: error.message });
+  }
+
+  res.status(200).json({ message: "Profil berhasil diperbarui" });
+};
+
 module.exports = {
   getOneProfile,
   uploadAvatar,
+  updateProfile
 };
